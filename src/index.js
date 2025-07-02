@@ -1,3 +1,3 @@
 import Todo from "./todo";
 import Project from "./project";
-import {deleteProject} from "./projectManager";
+import {createProject, deleteProject} from "./projectManager";

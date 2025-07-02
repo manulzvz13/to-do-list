@@ -1,34 +1,69 @@
 export default class Todo {
   constructor(title, notes = '', dueDate = null, priority = 'normal', checklist = [], completed = false) {
-    this.title = title; // String: The title of the todo item
-    this.notes = notes; // String: Additional notes
-    this.dueDate = dueDate; // String or Date: Due date (e.g. '2025-07-02')
-    this.priority = priority; // String: 'low', 'normal', 'high', etc.
-    this.checklist = checklist; // Array of { item: string, done: boolean }
-    this.completed = completed; // Boolean: true if the todo is completed
+    this.title = title;
+    this.notes = notes;
+    this.dueDate = dueDate;
+    this.priority = priority;
+    this.checklist = checklist;
+    this.completed = completed;
   }
 
-  // Mark the todo as completed
   markCompleted() {
     this.completed = true;
   }
 
-  // Mark the todo as not completed
   markIncomplete() {
     this.completed = false;
   }
 
-  // Add an item to the checklist
   addChecklistItem(item) {
     this.checklist.push({ item, done: false });
   }
 
-  // Toggle a checklist item's done status by index
   toggleChecklistItem(index) {
     if (this.checklist[index]) {
       this.checklist[index].done = !this.checklist[index].done;
     }
   }
-}
 
+  editTitle(newTitle) {
+    this.title = newTitle;
+  }
+
+  editNotes(newNotes) {
+    this.notes = newNotes;
+  }
+
+  editDueDate(newDueDate) {
+    this.dueDate = newDueDate;
+  }
+
+  editPriority(newPriority) {
+    this.priority = newPriority;
+  }
+
+  editCompleted(isCompleted) {
+    this.completed = isCompleted;
+  }
+
+  editChecklist(newChecklist) {
+    this.checklist = newChecklist;
+  }
+
+  deleteChecklistItem(index) {
+    if (index >= 0 && index < this.checklist.length) {
+      this.checklist.splice(index, 1);
+    }
+  }
+
+  static createTodo(title, notes = '', dueDate = null, priority = 'normal', checklist = [], completed = false) {
+    return new Todo(title, notes, dueDate, priority, checklist, completed);
+  }
+
+  static deleteTodo(todosArray, index) {
+    if (Array.isArray(todosArray) && index >= 0 && index < todosArray.length) {
+      todosArray.splice(index, 1);
+    }
+  }
+}
 
