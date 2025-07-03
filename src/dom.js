@@ -24,9 +24,10 @@ function renderProjects(projects, selectedProjectIndex, onSelect, onDelete) {
   });
 }
 
-function renderTodos(project, onExpand, onDelete) {
+function renderTodos(project, onExpand, onDelete, onAdd) {
   const todoListContainer = document.getElementById('todo-list');
   todoListContainer.innerHTML = '';
+
   project.todos.forEach((todo, idx) => {
     const todoDiv = document.createElement('div');
     todoDiv.className = `todo-item priority-${todo.priority}`;
@@ -40,10 +41,18 @@ function renderTodos(project, onExpand, onDelete) {
     todoDiv.querySelector('.delete-todo-btn').onclick = () => onDelete(idx);
     todoListContainer.appendChild(todoDiv);
   });
+
+  // Add the "Add Todo" button at the end of the todo list
+  const addBtn = document.createElement('button');
+  addBtn.id = 'add-todo-btn';
+  addBtn.textContent = 'Add Todo';
+  addBtn.onclick = onAdd;
+  todoListContainer.appendChild(addBtn);
 }
 
 function renderTodoDetails(todo, onSave) {
   const todoDetailsContainer = document.getElementById('todo-details');
+  todoDetailsContainer.classList.add('active');
   todoDetailsContainer.innerHTML = `
     <h3>Edit Todo</h3>
     <label>Title: <input id="edit-title" value="${todo.title}"></label><br>
@@ -73,7 +82,9 @@ function renderTodoDetails(todo, onSave) {
 }
 
 function clearTodoDetails() {
-  document.getElementById('todo-details').innerHTML = '';
+  const todoDetailsContainer = document.getElementById('todo-details');
+  todoDetailsContainer.classList.remove('active');
+  todoDetailsContainer.innerHTML = '';
 }
 
 export { renderProjects, renderTodos, renderTodoDetails, clearTodoDetails };

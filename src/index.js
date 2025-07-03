@@ -1,4 +1,4 @@
-// index.js
+import "./style.css";
 
 import { createProject, deleteProject } from './projectManager.js';
 import Todo from './todo.js';
@@ -12,7 +12,10 @@ function rerenderAll() {
   renderProjects(
     projects,
     selectedProjectIndex,
-    (index) => { selectedProjectIndex = index; rerenderAll(); },
+    (index) => { 
+      selectedProjectIndex = index; 
+      rerenderAll(); 
+    },
     (index) => {
       deleteProject(projects, projects[index].name);
       if (selectedProjectIndex >= projects.length) selectedProjectIndex = 0;
@@ -34,28 +37,31 @@ function rerenderAll() {
       projects[selectedProjectIndex].removeTodo(idx);
       rerenderAll();
       clearTodoDetails();
+    },
+    () => { // onAdd callback for Add Todo button
+      const title = prompt('Todo title?');
+      if (title) {
+        const todo = Todo.createTodo(title);
+        projects[selectedProjectIndex].addTodo(todo);
+        rerenderAll();
+      }
     }
   );
   clearTodoDetails();
   saveProjects(projects);
 }
 
-document.getElementById('add-project-btn').onclick = () => {
-  const name = prompt('Project name?');
-  if (name) {
-    projects.push(createProject(name));
-    selectedProjectIndex = projects.length - 1;
-    rerenderAll();
-  }
-};
-
-document.getElementById('add-todo-btn').onclick = () => {
-  const title = prompt('Todo title?');
-  if (title) {
-    const todo = Todo.createTodo(title);
-    projects[selectedProjectIndex].addTodo(todo);
-    rerenderAll();
-  }
-};
+// Add Project button (if you keep it outside the project list in your HTML)
+const addProjectBtn = document.getElementById('add-project-btn');
+if (addProjectBtn) {
+  addProjectBtn.onclick = () => {
+    const name = prompt('Project name?');
+    if (name) {
+      projects.push(createProject(name));
+      selectedProjectIndex = projects.length - 1;
+      rerenderAll();
+    }
+  };
+}
 
 rerenderAll();
