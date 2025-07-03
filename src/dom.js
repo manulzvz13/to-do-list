@@ -41,13 +41,6 @@ function renderTodos(project, onExpand, onDelete, onAdd) {
     todoDiv.querySelector('.delete-todo-btn').onclick = () => onDelete(idx);
     todoListContainer.appendChild(todoDiv);
   });
-
-  // Add the "Add Todo" button at the end of the todo list
-  const addBtn = document.createElement('button');
-  addBtn.id = 'add-todo-btn';
-  addBtn.textContent = 'Add Todo';
-  addBtn.onclick = onAdd;
-  todoListContainer.appendChild(addBtn);
 }
 
 function renderTodoDetails(todo, onSave) {

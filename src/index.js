@@ -1,5 +1,5 @@
+// index.js
 import "./style.css";
-
 import { createProject, deleteProject } from './projectManager.js';
 import Todo from './todo.js';
 import { renderProjects, renderTodos, renderTodoDetails, clearTodoDetails } from './dom.js';
@@ -37,21 +37,13 @@ function rerenderAll() {
       projects[selectedProjectIndex].removeTodo(idx);
       rerenderAll();
       clearTodoDetails();
-    },
-    () => { // onAdd callback for Add Todo button
-      const title = prompt('Todo title?');
-      if (title) {
-        const todo = Todo.createTodo(title);
-        projects[selectedProjectIndex].addTodo(todo);
-        rerenderAll();
-      }
     }
   );
   clearTodoDetails();
   saveProjects(projects);
 }
 
-// Add Project button (if you keep it outside the project list in your HTML)
+// Add Project button (in the sidebar)
 const addProjectBtn = document.getElementById('add-project-btn');
 if (addProjectBtn) {
   addProjectBtn.onclick = () => {
@@ -59,6 +51,19 @@ if (addProjectBtn) {
     if (name) {
       projects.push(createProject(name));
       selectedProjectIndex = projects.length - 1;
+      rerenderAll();
+    }
+  };
+}
+
+// Add Todo button (in the sidebar)
+const addTodoBtn = document.getElementById('add-todo-btn');
+if (addTodoBtn) {
+  addTodoBtn.onclick = () => {
+    const title = prompt('Todo title?');
+    if (title) {
+      const todo = Todo.createTodo(title);
+      projects[selectedProjectIndex].addTodo(todo);
       rerenderAll();
     }
   };
